@@ -17,7 +17,7 @@ class Instruction(BaseModel):
 
 @app.post("/generate_text")
 def generate_text(instruction: Instruction):
-    system = 'You are an SAP consultant assistant that follows instructions extremely well. you chat with the user and answer as best as you can'
+    system = 'You are an AI assistant that follows instructions extremely well. you chat with the user and answer as best as you can'
 
     if instruction.input:
         prompt = f"### System:\n{system}\n\n### User:\n{instruction.instruction}\n\n### Input:\n{instruction.input}\n\n### Response:\n"
@@ -32,7 +32,7 @@ def generate_text(instruction: Instruction):
     length = len(tokens[0])
     with torch.no_grad():
         rest = model.generate(
-            input_ids=tokens.to('mps'),
+            input_ids=tokens,
             max_length=length + instance['generate_len'],
             use_cache=True,
             do_sample=True,
